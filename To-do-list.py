@@ -7,14 +7,28 @@ class ToDoList:
         self.window = tk.Tk()
         self.window.title('To-do-list')
         self.window.geometry("350x400")
+        self.window.configure(bg="black")
         
         # Create header label
-        tk.Label(self.window, text="Check your to-do-list and complete the assigments!").pack()
+        tk.Label(self.window, 
+                text="Check your to-do-list and complete the assigments!",
+                bg="black",
+                relief="groove",
+                bd=1,                  
+                fg="white"               
+                ).pack()
         
         # Create button to add new assignments
-        tk.Button(self.window, text="Add an assignment", command=self.add_assignment).pack()
-        self.assignment_label = tk.Label()
-        
+        tk.Button(self.window, 
+                  text="Add an assignment", 
+                  command=self.add_assignment,
+                  bd=0,
+                  bg="#5d0157",                  
+                  fg="white",                
+                  activebackground="#7c0074",
+                  activeforeground="white" 
+                  ).pack()
+            
         # Initialize database connection and load existing tasks
         self.db()
         
@@ -42,10 +56,24 @@ class ToDoList:
             task_id = task[0]  # Get the ID
             task_name = task[1]  # Get the assignment text
             self.task_frameall = tk.Frame(self.window)
+            self.task_frameall.configure(bg="black")
             self.task_frameall.pack()
-            check = tk.Checkbutton(self.task_frameall).pack(side=tk.LEFT)
-            self.assignment_label = tk.Label(self.task_frameall, text=f"{task_name}").pack(side=tk.LEFT) 
-            delete_btn = tk.Button(self.task_frameall, text="Delete", command=lambda tid=task_id: self.deleteassignment(tid)).pack(side=tk.RIGHT)
+            check = tk.Checkbutton(self.task_frameall, bg="black").pack(side=tk.LEFT)
+            self.assignment_label = tk.Label(self.task_frameall, 
+                                             text=f"{task_name}",
+                                             bg="black",
+                                             fg="white",
+                                             relief="groove",
+                                             bd=1,                  
+                                             ).pack(side=tk.LEFT) 
+            delete_btn = tk.Button(self.task_frameall, 
+                                   text="Delete", 
+                                   command=lambda tid=task_id: self.deleteassignment(tid),
+                                   bd=0,
+                                   bg="#5d0157",                  
+                                   fg="white",                
+                                   activebackground="#7c0074",
+                                   activeforeground="white" ).pack(side=tk.RIGHT)
         
         # Commit any changes to database
         self.conn.commit()
@@ -56,12 +84,20 @@ class ToDoList:
         self.assignment_entry.pack()
         
         # Create confirm button to save the new assignment
-        self.confirmbtn = tk.Button(self.window, text="Confirm", command=self.new_assignment)
+        self.confirmbtn = tk.Button(self.window, 
+                                    text="Confirm", 
+                                    command=self.new_assignment,
+                                    bd=0,
+                                    bg="#5d0157",                  
+                                    fg="white",                
+                                    activebackground="#7c0074",
+                                    activeforeground="white" )
         self.confirmbtn.pack()
 
     def new_assignment(self):
         # Create frame for the new task
         task_frame = tk.Frame(self.window)
+        task_frame.configure(bg="black")
         task_frame.pack()
 
         # Get the assignment text from entry field
@@ -83,10 +119,21 @@ class ToDoList:
         if task:
             task_id = task[0]  # Get the ID
             task_name = task[1]  # Get the assignment text
-        check = tk.Checkbutton(task_frame).pack(side=tk.LEFT)
-        assignment_label = tk.Label(task_frame, text=f"{task_name}").pack(side=tk.LEFT)
-        delete_btn = tk.Button(task_frame, text="Delete", command=lambda tid=task_id: self.deleteassignment(tid)).pack(side=tk.RIGHT)
-
+        check = tk.Checkbutton(task_frame, bg="black").pack(side=tk.LEFT)
+        assignment_label = tk.Label(task_frame, 
+                                    text=f"{task_name}",
+                                    bg="black",
+                                    fg="white",
+                                    relief="groove",
+                                    bd=1,).pack(side=tk.LEFT)
+        delete_btn = tk.Button(task_frame, 
+                               text="Delete", 
+                                   command=lambda tid=task_id: self.deleteassignment(tid),
+                                   bd=0,
+                                   bg="#5d0157",                  
+                                   fg="white",                
+                                   activebackground="#7c0074",
+                                   activeforeground="white" ).pack(side=tk.RIGHT)
     def deleteassignment(self, task_id):
         # Delete the specific task by ID
         self.cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
